@@ -1,13 +1,18 @@
-from PIL import Image
-import face_recognition
+from PIL import Image, ImageOps 
 import numpy as np
 import cv2
 import argparse
 import json
+import sys
+from keras_facenet import FaceNet
+import tensorflow as tf
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--image_path', default="", type=str)
 args = parser.parse_args()
+embedder = FaceNet()
 
 
 def face_detection(image_path):
@@ -17,43 +22,64 @@ def face_detection(image_path):
     image_path: string
         path to the image
     @return 
-    results: json
-        json containing information about the location 
+    results: list
+        list of dictionaries 
+        containing information about the location 
         and rotation of each detected face 
     """
     angle = 90
     rotated_sum = 0
     results = {"faces":[]}
     raw_image = Image.open(image_path)
+    max_size = (640, 480)
+    raw_image.thumbnail(max_size)
     im = np.array(raw_image.convert('RGB'))
-    face_locations = face_recognition.face_locations(im)
-    if len(face_locations) == 0:
-        while len(face_locations) == 0:
+    detections = embedder.extract(im, threshold=0.8)
+    if len(detections) == 0:
+        while len(detections) == 0:
             raw_image = raw_image.rotate(angle, expand=True)
             im = np.array(raw_image.convert('RGB'))
             rotated_sum += angle
-            face_locations = face_recognition.face_locations(im)
-            if len(face_locations) > 0:
+            detections = embedder.extract(im, threshold=0.8)
+            if len(detections) > 0:
                 break
-    print("Founded {} face(s) in this photograph.".format(len(face_locations)))
-    for face_location in face_locations:
+            elif rotated_sum >= 360:
+                print('Faces not found')
+                break
+                # sys.exit()
+    print("Founded {} face(s) in this photograph.".format(len(detections)))
+    for embedding in detections:
         # Get the location of each face in this image
-        top, right, bottom, left = face_location
+        x, y, w, h = embedding['box']
+        # margin is added by expanding the bounding box of the detected face region by a certain percentage
+        margin = 10
+        x -= margin
+        y -= margin
+        w += 2*margin
+        h += 2*margin
+        if x < 0:
+            w += x
+            x = 0
+        if y < 0:
+            h += y
+            y = 0
         # Draw rectangles around the detected faces
-        cv2.rectangle(im, (left, top), (right, bottom), (0, 255, 0), 2)
+        cv2.rectangle(im, (x, y), (x+w, y+h), (0, 255, 0), 2)
         # You can access the actual face itself like this:
-        face_image = im[top:bottom, left:right]
+        face_image = im[y:y+h, x:x+w]
         pil_image = Image.fromarray(im)
         results_dict = {
-        "x": left,
-        "y": top,
-        "width": right - left,
-        "height": bottom - top,
+        "x": x,
+        "y": y,
+        "width": w,
+        "height": h,
         "rotate": 0 if rotated_sum==0 else 1,
         "rotated_angle": rotated_sum}
         results["faces"].append(results_dict)
-    print(results["faces"])
-    pil_image.show()
+    try:
+        pil_image.show()
+    except Exception as e:
+        print("Faces not found")
     with open("faces.json", "w") as temp:
         json.dump(results , temp)
     return results

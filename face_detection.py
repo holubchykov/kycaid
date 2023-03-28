@@ -17,9 +17,8 @@ def face_detection(image_path):
     image_path: string
         path to the image
     @return 
-    results: list
-        list of dictionaries 
-        containing information about the location 
+    results: json
+        json containing information about the location 
         and rotation of each detected face 
     """
     angle = 90

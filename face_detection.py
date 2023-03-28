@@ -45,7 +45,6 @@ def face_detection(image_path):
         # You can access the actual face itself like this:
         face_image = im[top:bottom, left:right]
         pil_image = Image.fromarray(im)
-        pil_image.show()
         results_dict = {
         "x": left,
         "y": top,
@@ -55,6 +54,7 @@ def face_detection(image_path):
         "rotated_angle": rotated_sum}
         results["faces"].append(results_dict)
     print(results["faces"])
+    pil_image.show()
     with open("faces.json", "w") as temp:
         json.dump(results , temp)
     return results

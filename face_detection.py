@@ -11,16 +11,19 @@ tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--image_path', default="", type=str)
+parser.add_argument('--debug', default=False, type=bool)
 args = parser.parse_args()
 embedder = FaceNet()
 
 
-def face_detection(image_path):
+def face_detection(image_path, debug=False):
     """
     find faces on the provided image
     @parameters
     image_path: string
         path to the image
+    debug: bool
+        if debug mode on
     @return 
     results: list
         list of dictionaries 
@@ -77,7 +80,8 @@ def face_detection(image_path):
         "rotated_angle": rotated_sum}
         results["faces"].append(results_dict)
     try:
-        pil_image.show()
+        if debug:
+            pil_image.show()
     except Exception as e:
         print("Faces not found")
     with open("faces.json", "w") as temp:
@@ -86,6 +90,6 @@ def face_detection(image_path):
 
 if __name__ == '__main__':
     if len(args.image_path) > 0:
-        face_detection(args.image_path)
+        face_detection(args.image_path, args.debug)
     else:
         print("Please provide path to the image")

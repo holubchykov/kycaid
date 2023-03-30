@@ -4,6 +4,7 @@ import cv2
 import argparse
 import json
 import sys
+from pathlib import Path
 from keras_facenet import FaceNet
 import tensorflow as tf
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
@@ -30,6 +31,9 @@ def face_detection(image_path, debug=False):
         containing information about the location 
         and rotation of each detected face 
     """
+    
+
+    file_name_wo_ext = Path(image_path).stem
     angle = 90
     rotated_sum = 0
     results = {"faces":[]}
@@ -84,7 +88,7 @@ def face_detection(image_path, debug=False):
             pil_image.show()
     except Exception as e:
         print("Faces not found")
-    with open("faces.json", "w") as temp:
+    with open(f"{file_name_wo_ext}.json", "w") as temp:
         json.dump(results , temp)
     return results
 

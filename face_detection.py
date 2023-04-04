@@ -80,6 +80,7 @@ def face_detection(image_path, debug=False):
         "y": y,
         "width": w,
         "height": h,
+        "accuracy": embedding['confidence'],
         "rotate": 0 if rotated_sum==0 else 1,
         "rotated_angle": rotated_sum}
         results["faces"].append(results_dict)

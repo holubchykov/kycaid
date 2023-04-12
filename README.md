@@ -1,4 +1,9 @@
 # kycaid features
+<br />
+Before start please download model weights directory and put it to the project directory.
+<br />
+**TO DO**: add models downloading to the code
+<br />
 It has been tested on Linux Ubuntu
 <br />For install all necessary requirements:
 <br />

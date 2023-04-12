@@ -7,6 +7,8 @@ It has been tested on Linux Ubuntu
 ### to run:
 python face_detection.py --mode="image" --img_path="/path/to/image.jpeg"
 <br />
+or
+<br />
 python face_detection.py --mode="video" --video_path="/path/to/video.mov
 
 
@@ -16,7 +18,7 @@ As a result, it returns a json file with faces bounding boxes and features, such
 <br />
 It also shows proceeded image if add flag --debug=True
 <br />
-#### video
+#### Video
 As a result, it returns a proceeded video with faces bounding boxes and all mentioned features.
 <br />
 Video saving under the current working directory with name "output_video.mov"

@@ -11,11 +11,11 @@ It has been tested on Linux Ubuntu
 **pip install -r requirements.txt**
 <br />
 ### to run:
-python face_detection.py --mode="image" --img_path="/path/to/image.jpeg"
+python proceed_media.py --mode="image" --img_path="/path/to/image.jpeg"
 <br />
 or
 <br />
-python face_detection.py --mode="video" --video_path="/path/to/video.mov
+python proceed_media.py --mode="video" --video_path="/path/to/video.mov
 
 
 ### Result:

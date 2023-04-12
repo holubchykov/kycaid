@@ -15,7 +15,7 @@ python proceed_media.py --mode="image" --img_path="/path/to/image.jpeg"
 <br />
 or
 <br />
-python proceed_media.py --mode="video" --video_path="/path/to/video.mov
+python proceed_media.py --mode="video" --video_path="/path/to/video.mov"
 
 
 ### Result:

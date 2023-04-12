@@ -1,19 +1,20 @@
-# kycaid face detection
+# kycaid features
 It has been tested on Linux Ubuntu
 <br />For install all necessary requirements:
 <br />
 <br />**pip install -r requirements.txt**
 <br />
 ### to run:
-python face_detection.py --image_path="/path/to/image.jpeg"
+python face_detection.py --mode="image" --img_path="/path/to/image.jpeg"
 <br />
-python face_matching.py --image1_path="/path/to/image1.jpeg" --image2_path="/path/to/image2.jpeg"
+python face_detection.py --mode="video" --video_path="/path/to/video.mov
 
 
 ### Result:
-#### face_detection
-As a result, it returns a json file with faces coordinates, rotated image or not (1 or 0), if it's rotated also return rotated angle.
-<br /> Also it shows image with bounding boxes
+#### Photo
+As a result, it returns a json file with faces bounding boxes and features, such as: emotion, age, gender.
+It also shows proceeded image if add flag --debug=True
 <br />
-#### face_matching
-As a result, it returns a json file with founded matching faces on the images. Results contains calculated distance between embeddings and bounding box from the each image.
+#### video
+As a result, it returns a proceeded video with faces bounding boxes and all mentioned features.
+Video saving under the current working directory with name "output_video.mov"

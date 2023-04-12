@@ -5,3 +5,4 @@ numpy==1.23.4
 tensorflow==2.2.0
 keras-facenet==0.3.2
 protobuf==3.19.6
+deepface==0.0.79

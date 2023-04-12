@@ -1,5 +1,6 @@
 # kycaid features
-Before start please download model weights directory and put it to the project directory.
+Before start please download model weights from this [link](https://drive.google.com/drive/folders/1OL-81hs_JqKDL5bOnMFfsop_X4QZ4k4C?usp=share_link) and put "weights" directory to the project directory.
+<br />
 <br />
 **TO DO:** add models downloading to the code.
 <br />
